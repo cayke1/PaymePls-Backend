@@ -1,6 +1,7 @@
 import express from "express";
 import { routes } from "./routes";
 import cors from "cors";
+import { errorHandlerMiddleware } from "./middlewares/ErrorHandler";
 
 class App {
   public express: express.Application;
@@ -11,6 +12,8 @@ class App {
     this.middlewares();
 
     this.routes();
+
+    this.errorHandler();
   }
 
   private middlewares() {
@@ -35,6 +38,10 @@ class App {
       res.setHeader("Access-Control-Allow-Credentials", "true");
       next();
     });
+  }
+
+  private errorHandler() {
+    this.express.use(errorHandlerMiddleware)
   }
 
   private routes() {
