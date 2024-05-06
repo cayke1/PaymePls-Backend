@@ -1,26 +1,33 @@
-import { User } from "@prisma/client";
+import { User } from "../@types/User";
 import { prisma } from "../database/prisma";
+import { ConflictError, NotFoundError } from "../errors/CreateCustomError";
 
 export class UserRepository {
-  async createUser(
-    name: string,
-    email: string,
-    password: string
-  ): Promise<User | Error> {
-    const userToCreate = {
-      name,
-      email,
-      password,
-    };
+  async create(user: Omit<User, "id">): Promise<User | Error> {
+    const alreadyExists = await prisma.user.findUnique({
+      where: { email: user.email },
+    });
+
+    if (alreadyExists) {
+      return new ConflictError("User already exists");
+    }
     try {
-      const user = await prisma.user.create({
-        data: userToCreate,
+      const newUser = await prisma.user.create({
+        data: user,
       });
-      return user;
+      return newUser;
     } catch (error) {
       throw error;
     }
   }
 
-  async findByEmail(email: string) {}
+  async findByEmail(email: string): Promise<User | Error> {
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) return new NotFoundError("User does'nt exists");
+
+    return user;
+  }
 }
