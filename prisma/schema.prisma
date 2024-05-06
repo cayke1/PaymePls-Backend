@@ -9,13 +9,28 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
-  id    String  @id @default(uuid())
-  name  String
-  phone String  @unique
-  email String? @unique
+  id       String @id @default(uuid())
+  name     String
+  phone    String @unique
+  email    String @unique
+  password String
+  Bill     Bill[]
+}
+
+model Bill {
+  id          String    @id @default(uuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  description String
+  value       Float
+  created_at  DateTime  @default(now())
+  next_charge DateTime
+  payd_at     DateTime?
+  active      Boolean   @default(false)
 }
