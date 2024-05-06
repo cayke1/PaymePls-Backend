@@ -15,3 +15,4 @@ export const UnauthorizedError = createCustomError(401, "Unauthorized");
 export const ConflictError = createCustomError(409, "Conflict");
 export const ForbiddenError = createCustomError(403, "Forbidden");
 export const NotFoundError = createCustomError(404, "Not Found");
+export const BadRequestError = createCustomError(400, "Bad Request");
