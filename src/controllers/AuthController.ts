@@ -33,7 +33,7 @@ export class AuthController {
     const { email, password } = req.body;
     if (!email || !password)
       return next(new BadRequestError("Email or password not sent"));
-
+    console.log(email);
     const response = await this.userService.singin({ email, password });
 
     if (response instanceof Error) {
