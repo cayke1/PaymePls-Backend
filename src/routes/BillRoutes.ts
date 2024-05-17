@@ -13,5 +13,7 @@ const billController = new BillController(billService);
 billRoutes.get("/bill", billController.findAll);
 billRoutes.post("/bill", billController.register);
 billRoutes.get("/bill/:debtorId", billController.findFromDebtor);
+billRoutes.patch("/bill/set_payd/:id", billController.setBillPayd);
+billRoutes.put("/bill/:id", billController.update);
 
 export { billRoutes };

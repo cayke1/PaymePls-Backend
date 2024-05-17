@@ -1,4 +1,4 @@
-import { Bill } from "../@types/Bill";
+import { Bill, ICreateBill, IUpdateBill } from "../@types/Bill";
 import { BillRepository } from "../repositories/BillRepository";
 import { DebtorRepository } from "../repositories/DebtorRepository";
 
@@ -9,7 +9,7 @@ export class BillService {
   ) {}
 
   async create(
-    bill: Omit<Bill, "id" | "debtorId" | "created_at">,
+    bill: Omit<ICreateBill, "debtorId" | "created_at">,
     debtorId: string
   ) {
     const debtor = await this.debtorRepository.findOneById(debtorId);
@@ -39,5 +39,20 @@ export class BillService {
   async findAll(): Promise<Bill[] | Error> {
     const bills = this.billRepository.findAll();
     return bills;
+  }
+
+  async setBillPayd(id: string, date?: Date): Promise<Bill | Error> {
+    const payd_at = date ? date : new Date(Date.now());
+    const paydBill = this.billRepository.update(id, {
+      active: false,
+      payd_at,
+    });
+
+    return paydBill;
+  }
+
+  async update(id: string, bill: IUpdateBill): Promise<Bill | Error> {
+    const updatedBill = await this.billRepository.update(id, bill);
+    return updatedBill;
   }
 }
