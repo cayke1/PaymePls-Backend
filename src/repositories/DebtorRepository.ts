@@ -37,10 +37,20 @@ export class DebtorRepository {
   async findAll(): Promise<Debtor[] | Error> {
     const debtors = await prisma.debtor.findMany();
 
-    if(!debtors || debtors.length < 1) {
+    if (!debtors || debtors.length < 1) {
       return new NotFoundError("No debtor registered");
     }
 
     return debtors;
+  }
+
+  async findOneById(id: string): Promise<Debtor | Error> {
+    const debtor = await prisma.debtor.findUnique({
+      where: { id },
+    });
+
+    if (!debtor) return new NotFoundError("No debtor registered");
+
+    return debtor;
   }
 }
