@@ -6,7 +6,7 @@ on:
 
 env:
   REGISTRY: docker.io
-  REPO: cayke1/paymepls-backend/paymepls
+  REPO: cayke1/paymepls
   CONTAINER: paymepls
 
 jobs:
