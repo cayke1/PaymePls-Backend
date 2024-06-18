@@ -30,4 +30,14 @@ export class UserRepository {
 
     return user;
   }
+
+  async findById(id: string): Promise<User | Error> {
+    const user = await prisma.user.findUnique({
+      where: { id },
+    });
+
+    if (!user) return new NotFoundError("User does'nt exists");
+
+    return user;
+  }
 }

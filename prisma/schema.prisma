@@ -15,11 +15,13 @@ datasource db {
 }
 
 model User {
-  id       String   @id @default(uuid())
-  name     String
-  email    String   @unique
-  password String
-  debtors  Debtor[]
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  password      String
+  debtors       Debtor[]
+  charge_active Boolean  @default(true)
+  charge_time   String   @default("08:00")
 }
 
 model Debtor {
