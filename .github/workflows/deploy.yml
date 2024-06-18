@@ -6,7 +6,7 @@ on:
 
 env:
   REGISTRY: docker.io  # Alterado para o Docker Hub
-  REPO: cayke1/paymepls-backend/paymepls  # Nome do repositório no Docker Hub
+  REPO: cayke1/paymepls  # Nome do repositório no Docker Hub
   CONTAINER: paymepls
 
 jobs:
