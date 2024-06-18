@@ -8,6 +8,7 @@ env:
   REGISTRY: docker.io
   REPO: cayke1/paymepls
   CONTAINER: paymepls
+  PORT: 3395  # A porta que sua aplicação usará
 
 jobs:
   push_to_registry:
@@ -61,9 +62,9 @@ jobs:
         run: |
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker rm ${{ env.CONTAINER }}"
 
-      - name: Start docker container from Docker Hub
+      - name: Start docker container
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker run -p 3395:3395 -d --restart unless-stopped --name=${{ env.CONTAINER }} ${REGISTRY}/${REPO}:latest"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker run -p ${{ env.PORT }}:${{ env.PORT }} -d --restart unless-stopped --name=${{ env.CONTAINER }} -e NODE_ENV=production -e DATABASE_URL=${{ secrets.DATABASE_URL }} -e DIRECT_URL=${{ secrets.DIRECT_URL }} -e PORT=${{ env.PORT }} -e JWT_SECRET=${{ secrets.JWT_SECRET }} ${REGISTRY}/${REPO}:latest"
 
       - name: Logout from Docker Hub
         run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker logout"
