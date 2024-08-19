@@ -30,7 +30,7 @@ model Debtor {
   phone  String  @unique
   email  String? @unique
   bills  Bill[]
-  User   User?   @relation(fields: [userId], references: [id])
+  User   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String?
 }
 
@@ -43,5 +43,5 @@ model Bill {
   payd_at     DateTime?
   active      Boolean   @default(false)
   debtorId    String?
-  Debtor      Debtor?   @relation(fields: [debtorId], references: [id])
+  Debtor      Debtor?   @relation(fields: [debtorId], references: [id], onDelete: Cascade)
 }
