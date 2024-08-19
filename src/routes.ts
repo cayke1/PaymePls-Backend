@@ -8,10 +8,11 @@ const routes = Router();
 
 routes.use(userRoutes);
 
+routes.use(billRoutes); 
+
 routes.use(enshureAuthenticated);
 
 routes.use(debtorRoutes);
 
-routes.use(billRoutes);
 
 export { routes };
