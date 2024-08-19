@@ -13,5 +13,6 @@ const debtorController = new DebtorController(debtorService);
 debtorRoutes.post("/debtor", debtorController.register);
 debtorRoutes.get("/debtor/all", debtorController.findAll);
 debtorRoutes.get("/debtor", debtorController.findFromUser);
+debtorRoutes.delete("/debtor/:id", debtorController.delete);
 
 export { debtorRoutes };

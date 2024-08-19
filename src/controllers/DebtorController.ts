@@ -54,4 +54,14 @@ export class DebtorController {
 
     return res.json(debtors);
   }
+
+  async delete(req: Request, res: Response, next: NextFunction) {
+    const { id } = req.params;
+    const deleted = await this.debtorService.delete(id);
+    if (deleted instanceof Error) {
+      return next(deleted);
+    }
+
+    return res.status(200).send();
+  }
 }
