@@ -9,6 +9,7 @@ export class DebtorController {
     this.register = this.register.bind(this);
     this.findFromUser = this.findFromUser.bind(this);
     this.findAll = this.findAll.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
   async register(req: Request, res: Response, next: NextFunction) {
