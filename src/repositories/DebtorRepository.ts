@@ -56,4 +56,14 @@ export class DebtorRepository {
 
     return debtor;
   }
+
+  async delete(id: string) {
+    try {
+      await prisma.debtor.delete({
+        where: { id },
+      });
+    } catch (error) {
+      return new NotFoundError("Debtor not found");
+    }
+  }
 }

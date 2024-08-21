@@ -38,4 +38,9 @@ export class DebtorService {
     const debtors = await this.debtorRepository.findAll();
     return debtors;
   }
+
+  async delete(id: string) {
+    const deleted = await this.debtorRepository.delete(id);
+    return deleted;
+  }
 }
