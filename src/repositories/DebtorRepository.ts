@@ -26,6 +26,9 @@ export class DebtorRepository {
       where: {
         userId,
       },
+      include: {
+        bills: true,
+      }
     });
     if (!debtors || debtors.length < 1) {
       return new NotFoundError("No debtor registered");
