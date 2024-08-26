@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { PaymentService } from "../services/PaymentService";
+import { GetIdByToken } from "../utils/GetIdByToken";
 
 export class PaymentController {
   constructor(private paymentService: PaymentService) {
@@ -25,7 +26,10 @@ export class PaymentController {
   }
 
   async findAll(req: Request, res: Response, next: NextFunction) {
-    const payments = await this.paymentService.findAll();
+    if (!req.headers.authorization)
+      return res.status(401).json({ message: "Token not provided" });
+    const userId = GetIdByToken(req.headers.authorization);
+    const payments = await this.paymentService.findAll(userId);
     if (payments instanceof Error) return next(payments);
 
     return res.json(payments);

@@ -36,9 +36,15 @@ export class PaymentService {
     return payments;
   }
 
-  async findAll() {
-    const payments = this.paymentRepository.findAll();
-    return payments;
+  async findAll(userId: string) {
+    const payments = await this.paymentRepository.findAll();
+    if (payments instanceof Error) return payments;
+    const selectedPayments = payments.filter((p) => {
+      if (p.Debtor?.userId) {
+        return p.Debtor.userId === userId;
+      }
+    });
+    return selectedPayments;
   }
 
   async delete(id: string) {
