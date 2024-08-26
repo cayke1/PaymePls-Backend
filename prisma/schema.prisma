@@ -25,13 +25,14 @@ model User {
 }
 
 model Debtor {
-  id     String  @id @default(uuid())
-  name   String
-  phone  String  @unique
-  email  String? @unique
-  bills  Bill[]
-  User   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String?
+  id       String    @id @default(uuid())
+  name     String
+  phone    String    @unique
+  email    String?   @unique
+  bills    Bill[]
+  payments Payment[]
+  User     User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String?
 }
 
 model Bill {
@@ -44,4 +45,12 @@ model Bill {
   active      Boolean   @default(false)
   debtorId    String?
   Debtor      Debtor?   @relation(fields: [debtorId], references: [id], onDelete: Cascade)
+}
+
+model Payment {
+  id         String   @id @default(uuid())
+  value      Float
+  created_at DateTime @default(now())
+  debtorId   String?
+  Debtor     Debtor?  @relation(fields: [debtorId], references: [id])
 }
