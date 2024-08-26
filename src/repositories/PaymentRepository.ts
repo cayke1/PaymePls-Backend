@@ -33,7 +33,14 @@ export class PaymentRepository {
   }
 
   async findAll(): Promise<Payment[] | Error> {
-    const payments = await prisma.payment.findMany();
+    const payments = await prisma.payment.findMany({
+      include: {
+        Debtor: true,
+      },
+      orderBy: {
+        created_at: "desc",
+      },
+    });
     if (!payments || payments.length < 1)
       return new NotFoundError("Payments not found");
     return payments;
