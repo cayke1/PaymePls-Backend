@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { PaymentService } from "../services/PaymentService";
 import { GetIdByToken } from "../utils/GetIdByToken";
+import { Jobs } from "../jobs";
 
 export class PaymentController {
   constructor(private paymentService: PaymentService) {
@@ -21,7 +22,8 @@ export class PaymentController {
     );
 
     if (newPayment instanceof Error) return next(newPayment);
-
+    const jobs = new Jobs();
+    jobs.sendChangeMessage(debtorId);
     return res.status(201).json(newPayment);
   }
 

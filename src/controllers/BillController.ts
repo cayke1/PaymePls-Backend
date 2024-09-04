@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { BillService } from "../services/BillService";
+import { Jobs } from "../jobs";
 
 export class BillController {
   constructor(private billService: BillService) {
@@ -24,7 +25,8 @@ export class BillController {
     );
 
     if (newBill instanceof Error) return next(newBill);
-
+    const jobs = new Jobs();
+    jobs.sendChangeMessage(debtorId);
     return res.status(201).json(newBill);
   }
 
