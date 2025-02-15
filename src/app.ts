@@ -1,14 +1,16 @@
-import express from "express";
+import express, { Express } from "express";
 import { routes } from "./routes";
 import cors from "cors";
 import { errorHandlerMiddleware } from "./middlewares/ErrorHandler";
+import { setupSwagger } from "./config/swagger";
 
 class App {
-  public express: express.Application;
+  public express: express.Application | Express;
 
   public constructor() {
     this.express = express();
 
+    setupSwagger(this.express as Express);
     this.middlewares();
 
     this.routes();
@@ -41,7 +43,7 @@ class App {
   }
 
   private errorHandler() {
-    this.express.use(errorHandlerMiddleware)
+    this.express.use(errorHandlerMiddleware);
   }
 
   private routes() {
